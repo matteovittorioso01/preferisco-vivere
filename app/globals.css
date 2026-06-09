@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-ink-900 text-white antialiased;
+    font-family: var(--font-body);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-lime text-ink-900;
+  }
+
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0b0d;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1d2127;
+    border-radius: 9999px;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .glass {
+    @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl;
+  }
+
+  .text-lime-gradient {
+    @apply bg-gradient-to-br from-lime to-verde bg-clip-text text-transparent;
+  }
+
+  /* Tipografia editoriale: titoli enormi e compatti */
+  .display-xl {
+    font-family: var(--font-display);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+
+  .grain {
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(255, 255, 255, 0.04) 1px,
+      transparent 0
+    );
+    background-size: 4px 4px;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}

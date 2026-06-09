@@ -1,0 +1,39 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { SERVICES } from "@/lib/site";
+import SectionTitle from "./SectionTitle";
+import Icon3D from "./Icon3D";
+import { scaleIn, stagger } from "@/lib/anim";
+
+export default function Servizi() {
+  return (
+    <section id="servizi" className="border-t border-white/10 py-24 md:py-32">
+      <div className="mx-auto max-w-6xl px-5">
+      <SectionTitle eyebrow="Tutto incluso" title="Tu pensa solo a giocare." />
+
+      <motion.div
+        variants={stagger(0.1)}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
+      >
+        {SERVICES.map((s) => (
+          <motion.div
+            key={s.title}
+            variants={scaleIn}
+            className="glass flex flex-col items-center rounded-3xl p-7 text-center transition hover:border-lime/40 hover:bg-white/[0.05]"
+          >
+            <Icon3D name={s.icon} />
+            <h3 className="mt-5 font-display text-2xl font-bold">{s.title}</h3>
+            <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-lime/80">
+              {s.text}
+            </p>
+          </motion.div>
+        ))}
+      </motion.div>
+      </div>
+    </section>
+  );
+}
