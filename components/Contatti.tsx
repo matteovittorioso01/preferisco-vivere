@@ -132,16 +132,24 @@ export default function Contatti() {
         />
       </motion.div>
 
-      {/* filigrana: firma gigante del club (SVG: si adatta sempre alla larghezza, mai tagliata) */}
+      {/* filigrana: firma gigante del club (SVG: si adatta sempre alla larghezza, mai tagliata).
+          Sul telefono è più intensa per restare leggibile, su desktop resta discreta. */}
       <div aria-hidden className="pointer-events-none select-none pt-16">
         <svg viewBox="0 0 1200 130" className="w-full" role="presentation">
+          <defs>
+            <linearGradient id="wm-grad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stopColor="#FFD60A" />
+              <stop offset="100%" stopColor="#22C55E" />
+            </linearGradient>
+          </defs>
           <text
             x="600"
             y="103"
             textAnchor="middle"
             textLength="1180"
             lengthAdjust="spacingAndGlyphs"
-            fill="rgba(255,255,255,0.05)"
+            fill="url(#wm-grad)"
+            className="opacity-[0.22] sm:opacity-[0.10]"
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 700,
