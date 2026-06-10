@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import { SITE } from "@/lib/site";
@@ -11,6 +11,16 @@ import { fadeUp, stagger } from "@/lib/anim";
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
   const [imgError, setImgError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Su smartphone foto e scritta restano FERME (niente effetti di movimento).
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   const { tx: bgX, ty: bgY } = useParallax(20);
   const { tx: textX, ty: textY } = useParallax(-10);
@@ -48,7 +58,7 @@ export default function Hero() {
 
       {/* CONTENUTO: sotto la foto su mobile, in basso a sinistra su desktop */}
       <motion.div
-        style={{ y: contentY, opacity: contentOpacity }}
+        style={{ y: isMobile ? 0 : contentY, opacity: isMobile ? 1 : contentOpacity }}
         className="relative z-10 flex flex-1 flex-col justify-end px-5 pb-12 pt-5 sm:pt-0 sm:pb-[15vh]"
       >
         <motion.div
@@ -70,7 +80,27 @@ export default function Hero() {
               variants={fadeUp}
               className="display-xl mt-5 whitespace-nowrap text-4xl font-bold sm:text-6xl lg:text-7xl"
             >
-              Preferisco <span className="text-lime-gradient">vivere</span>
+              {/* svelamento parola per parola con maschera */}
+              <span className="inline-block overflow-hidden align-bottom">
+                <motion.span
+                  className="inline-block"
+                  initial={{ y: "108%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  Preferisco
+                </motion.span>
+              </span>{" "}
+              <span className="inline-block overflow-hidden align-bottom">
+                <motion.span
+                  className="text-lime-gradient inline-block"
+                  initial={{ y: "108%" }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  vivere
+                </motion.span>
+              </span>
             </motion.h1>
 
             <motion.p

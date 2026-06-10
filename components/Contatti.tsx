@@ -132,7 +132,29 @@ export default function Contatti() {
         />
       </motion.div>
 
-      <footer className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/40 sm:flex-row">
+      {/* filigrana: firma gigante del club (SVG: si adatta sempre alla larghezza, mai tagliata) */}
+      <div aria-hidden className="pointer-events-none select-none pt-16">
+        <svg viewBox="0 0 1200 130" className="w-full" role="presentation">
+          <text
+            x="600"
+            y="103"
+            textAnchor="middle"
+            textLength="1180"
+            lengthAdjust="spacingAndGlyphs"
+            fill="rgba(255,255,255,0.05)"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: "112px",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            PREFERISCO VIVERE
+          </text>
+        </svg>
+      </div>
+
+      <footer className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/40 sm:flex-row">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-verde" />
           <span className="font-display font-bold text-white/70">

@@ -23,8 +23,22 @@ export default function Servizi() {
           <motion.div
             key={s.title}
             variants={scaleIn}
-            className="glass flex flex-col items-center rounded-3xl p-7 text-center transition hover:border-lime/40 hover:bg-white/[0.05]"
+            onMouseMove={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+              e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+            }}
+            className="glass group relative flex flex-col items-center overflow-hidden rounded-3xl p-7 text-center transition hover:border-lime/40 hover:bg-white/[0.05]"
           >
+            {/* spotlight che segue il puntatore */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{
+                background:
+                  "radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(255,214,10,0.10), transparent 65%)",
+              }}
+            />
             <Icon3D name={s.icon} />
             <h3 className="mt-5 font-display text-2xl font-bold">{s.title}</h3>
             <p className="mt-1.5 text-xs font-semibold uppercase tracking-widest text-lime/80">

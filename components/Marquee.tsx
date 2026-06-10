@@ -14,10 +14,18 @@ export default function Marquee() {
       <div className="flex w-max animate-marquee items-center gap-10 whitespace-nowrap">
         {row.map((t, i) => (
           <span key={i} className="flex items-center gap-10">
-            <span className="font-display text-xl font-bold uppercase tracking-tight text-white/80">
+            <span
+              className={`font-display text-xl font-bold uppercase tracking-tight ${
+                i % 2 === 0
+                  ? "text-white/80"
+                  : "text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.45)]"
+              }`}
+            >
               {t}
             </span>
-            <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${i % 2 === 0 ? "bg-lime" : "bg-verde"}`}
+            />
           </span>
         ))}
       </div>

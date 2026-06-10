@@ -40,6 +40,11 @@ export default function Campi() {
                 className="h-full w-full transition duration-700 group-hover:scale-105"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink-900 via-ink-900/20 to-transparent" />
+              {/* riflesso che attraversa la foto al passaggio del mouse */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 z-[5] -translate-x-[140%] skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[140%]"
+              />
               <span className="absolute left-5 top-5 z-10 rounded-full bg-lime px-3 py-1 text-xs font-bold text-ink-900">
                 {c.tag}
               </span>

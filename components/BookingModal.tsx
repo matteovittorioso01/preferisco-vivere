@@ -143,14 +143,53 @@ function Modal({
                 onChange={setOrario}
                 placeholder="Es. venerdì ore 21:00"
               />
+
+              {/* scorciatoie: un tocco e il campo si compila da solo */}
+              <div className="flex flex-wrap gap-1.5">
+                {["Oggi", "Domani", "Sabato", "Domenica"].map((d) => (
+                  <Chip
+                    key={d}
+                    selected={orario.startsWith(d)}
+                    onClick={() =>
+                      setOrario((prev) => {
+                        const time = prev.match(/ore\s.+$/)?.[0];
+                        return time ? `${d} ${time}` : d;
+                      })
+                    }
+                  >
+                    {d}
+                  </Chip>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {["18:00", "19:00", "20:00", "21:00", "22:00", "23:00"].map((t) => (
+                  <Chip
+                    key={t}
+                    selected={orario.endsWith(`ore ${t}`)}
+                    onClick={() =>
+                      setOrario((prev) => {
+                        const day = prev.replace(/\s*ore\s.+$/, "").trim();
+                        return `${day ? day + " " : ""}ore ${t}`;
+                      })
+                    }
+                  >
+                    {t}
+                  </Chip>
+                ))}
+              </div>
             </div>
 
             <button
               onClick={send}
               disabled={!canSend}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-lime px-6 py-3.5 font-bold text-ink-900 transition hover:shadow-lime disabled:cursor-not-allowed disabled:opacity-40"
+              className="group relative mt-6 inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-b from-[#FFE45C] via-lime to-[#ECC400] px-6 py-3.5 font-bold text-ink-900 shadow-[0_4px_22px_-8px_rgba(255,214,10,0.5),inset_0_1px_0_rgba(255,255,255,0.45)] transition hover:shadow-[0_8px_36px_-8px_rgba(255,214,10,0.8)] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              <WaGlyph className="h-5 w-5" /> Invia su WhatsApp
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 -translate-x-[160%] skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[160%]"
+              />
+              <WaGlyph className="relative h-5 w-5" />
+              <span className="relative">Invia su WhatsApp</span>
             </button>
             <p className="mt-3 text-center text-xs text-white/30">
               Si aprirà WhatsApp con il messaggio già pronto da inviare.
@@ -236,6 +275,30 @@ function Sent({ onClose }: { onClose: () => void }) {
         Perfetto
       </button>
     </div>
+  );
+}
+
+function Chip({
+  children,
+  onClick,
+  selected,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+  selected?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+        selected
+          ? "border-lime bg-lime/10 text-lime"
+          : "border-white/10 text-white/60 hover:border-lime/50 hover:text-lime"
+      }`}
+    >
+      {children}
+    </button>
   );
 }
 

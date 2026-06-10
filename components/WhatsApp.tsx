@@ -31,9 +31,17 @@ export default function WhatsAppButton({
 
   const base =
     variant === "primary"
-      ? "bg-lime text-ink-900 hover:shadow-lime"
+      ? "group relative overflow-hidden bg-gradient-to-b from-[#FFE45C] via-lime to-[#ECC400] text-ink-900 shadow-[0_4px_22px_-8px_rgba(255,214,10,0.5),inset_0_1px_0_rgba(255,255,255,0.45)] hover:shadow-[0_8px_36px_-8px_rgba(255,214,10,0.8),inset_0_1px_0_rgba(255,255,255,0.55)]"
       : "border border-white/15 text-white hover:border-lime hover:text-lime";
   const cls = `inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-sm font-bold transition ${base} ${className}`;
+
+  // riflesso che attraversa il bottone al passaggio del mouse
+  const shine = variant === "primary" && (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute inset-0 -translate-x-[160%] skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[160%]"
+    />
+  );
 
   // Bottone di prenotazione: apre il popup interno
   if (booking) {
@@ -45,8 +53,9 @@ export default function WhatsAppButton({
         whileTap={{ scale: 0.97 }}
         className={cls}
       >
-        <WhatsAppIcon className="h-5 w-5" />
-        {children}
+        {shine}
+        <WhatsAppIcon className="relative h-5 w-5" />
+        <span className="relative">{children}</span>
       </motion.button>
     );
   }
@@ -61,8 +70,9 @@ export default function WhatsAppButton({
       whileTap={{ scale: 0.97 }}
       className={cls}
     >
-      <WhatsAppIcon className="h-5 w-5" />
-      {children}
+      {shine}
+      <WhatsAppIcon className="relative h-5 w-5" />
+      <span className="relative">{children}</span>
     </motion.a>
   );
 }

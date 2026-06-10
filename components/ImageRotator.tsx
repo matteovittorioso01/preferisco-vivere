@@ -38,6 +38,8 @@ export default function ImageRotator({
           key={safe[i]}
           src={safe[i]}
           alt={alt}
+          loading="lazy"
+          decoding="async"
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}

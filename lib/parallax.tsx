@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  MotionConfig,
   type MotionValue,
   useMotionValue,
   useSpring,
@@ -37,21 +38,22 @@ export function ParallaxProvider({ children }: { children: ReactNode }) {
         rawY.set(ny);
       });
     };
+    // Solo mouse (desktop): su smartphone il movimento al tocco disturbava
+    // la lettura di foto e titolo, quindi sul touch resta tutto fermo.
     const onMouse = (e: MouseEvent) => apply(e.clientX, e.clientY);
-    const onTouch = (e: TouchEvent) => {
-      const t = e.touches[0];
-      if (t) apply(t.clientX, t.clientY);
-    };
     window.addEventListener("mousemove", onMouse);
-    window.addEventListener("touchmove", onTouch, { passive: true });
     return () => {
       window.removeEventListener("mousemove", onMouse);
-      window.removeEventListener("touchmove", onTouch);
       cancelAnimationFrame(raf);
     };
   }, [rawX, rawY]);
 
-  return <Ctx.Provider value={{ x, y }}>{children}</Ctx.Provider>;
+  return (
+    <Ctx.Provider value={{ x, y }}>
+      {/* rispetta la preferenza di sistema "riduci animazioni" */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+    </Ctx.Provider>
+  );
 }
 
 /** Restituisce due MotionValue (px) da applicare a style={{ x, y }} per il parallax. */

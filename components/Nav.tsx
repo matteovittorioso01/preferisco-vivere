@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { SITE } from "@/lib/site";
 import WhatsAppButton from "./WhatsApp";
@@ -16,12 +17,30 @@ const links = [
 export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Scrollspy: evidenzia la voce della sezione attualmente visibile.
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(`#${e.target.id}`);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    links.forEach((l) => {
+      const el = document.querySelector(l.href);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -32,7 +51,7 @@ export default function Nav() {
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
         <a href="#home" className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-verde shadow-verde" />
+          <span className="h-2.5 w-2.5 rounded-full bg-verde shadow-[0_0_14px_rgba(34,197,94,0.7)]" />
           <span className="font-display text-base font-bold tracking-tight">
             {SITE.shortName}
           </span>
@@ -43,9 +62,18 @@ export default function Nav() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-white/65 transition hover:text-white"
+              className={`relative text-sm font-medium transition ${
+                active === l.href ? "text-white" : "text-white/65 hover:text-white"
+              }`}
             >
               {l.label}
+              {active === l.href && (
+                <motion.span
+                  layoutId="nav-underline"
+                  transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-lime to-verde"
+                />
+              )}
             </a>
           ))}
           <WhatsAppButton booking className="!px-5 !py-2 text-xs">
@@ -70,7 +98,7 @@ export default function Nav() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-white/80"
+                className={active === l.href ? "font-semibold text-lime" : "text-white/80"}
               >
                 {l.label}
               </a>
