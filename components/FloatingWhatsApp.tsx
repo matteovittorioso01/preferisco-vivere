@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 import { WhatsAppIcon } from "./WhatsApp";
 import { useBooking } from "./BookingModal";
 
-// Bottone fluttuante: lampeggia solo per i primi 3 secondi, poi resta fermo.
+// Bottone fluttuante: lampeggia solo per i primi 5 secondi, poi resta fermo.
 export default function FloatingWhatsApp() {
   const openBooking = useBooking();
   const [pinging, setPinging] = useState(true);
 
   useEffect(() => {
-    const t = setTimeout(() => setPinging(false), 3000);
+    const t = setTimeout(() => setPinging(false), 5000);
     return () => clearTimeout(t);
   }, []);
 
