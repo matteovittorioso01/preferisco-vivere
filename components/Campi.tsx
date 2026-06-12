@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck } from "lucide-react";
 import { COURTS, CAMPI_PHOTOS } from "@/lib/site";
 import SectionTitle from "./SectionTitle";
 import ImageRotator from "./ImageRotator";
@@ -73,9 +72,26 @@ export default function Campi() {
         viewport={{ once: true }}
         className="mt-12 flex justify-center"
       >
-        <div className="flex items-center gap-3 rounded-2xl border border-lime/30 bg-lime/10 px-5 py-4 text-center shadow-[0_0_30px_-10px_rgba(0,168,89,0.5)]">
-          <ShieldCheck size={26} className="shrink-0 text-lime" />
-          <p className="text-sm font-semibold text-white sm:text-base">
+        <div className="flex flex-col items-center gap-4 rounded-2xl border border-lime/30 bg-lime/10 px-6 py-5 text-center shadow-[0_0_30px_-10px_rgba(0,168,89,0.5)]">
+          <div className="flex items-center gap-3">
+            <span className="grid place-items-center rounded-xl bg-white px-2.5 py-2 ring-1 ring-white/15">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/loghi/figc.png"
+                alt="Logo FIGC — Federazione Italiana Giuoco Calcio"
+                className="h-14 w-auto object-contain"
+              />
+            </span>
+            <span className="grid place-items-center rounded-xl bg-white px-2.5 py-2 ring-1 ring-white/15">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/loghi/coni.png"
+                alt="Logo CONI — Comitato Olimpico Nazionale Italiano"
+                className="h-10 w-auto object-contain"
+              />
+            </span>
+          </div>
+          <p className="max-w-sm text-sm font-semibold text-white sm:text-base">
             Campi con riconoscimento ufficiale{" "}
             <span className="text-lime">FIGC</span> e{" "}
             <span className="text-lime">CONI</span>
