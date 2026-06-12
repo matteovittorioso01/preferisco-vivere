@@ -73,7 +73,7 @@ export default function Hero() {
               variants={fadeUp}
               className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium uppercase tracking-[0.2em] text-lime backdrop-blur"
             >
-              Calcio a 5 · {SITE.city}
+              Calcio a 5
             </motion.p>
 
             <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">

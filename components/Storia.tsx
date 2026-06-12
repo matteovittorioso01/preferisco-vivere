@@ -31,7 +31,7 @@ export default function Storia() {
           />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink-900 to-transparent" />
           <p className="absolute bottom-5 left-6 right-6 text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
-            Il nostro campo · {SITE.city}
+            Il nostro campo
           </p>
         </motion.div>
 

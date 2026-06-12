@@ -5,14 +5,14 @@ import { BookingProvider } from "@/components/BookingModal";
 import { SITE } from "@/lib/site";
 
 const description =
-  "Due campi di calcio a 5 a Caivano con illuminazione inclusa, docce calde e bar con tavolini esterni. Allenamenti di tecnica individuale PV Soccer Training. Prenota comodamente su WhatsApp.";
+  "Due campi di calcio a 5 con illuminazione inclusa, docce calde e bar con tavolini esterni. Allenamenti di tecnica individuale PV Soccer Training. Prenota comodamente su WhatsApp.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://preferisco-vivere.vercel.app"),
-  title: `${SITE.name} | Calcio a 5 a Caivano · Prenota su WhatsApp`,
+  title: `${SITE.name} | Calcio a 5 · Prenota su WhatsApp`,
   description,
   openGraph: {
-    title: `${SITE.name} | Calcio a 5 a Caivano`,
+    title: `${SITE.name} | Calcio a 5`,
     description,
     url: "/",
     siteName: SITE.name,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.name} | Calcio a 5 a Caivano`,
+    title: `${SITE.name} | Calcio a 5`,
     description,
     images: [SITE.heroImage],
   },
