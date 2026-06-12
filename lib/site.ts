@@ -104,7 +104,15 @@ export const CAMPI_PHOTOS = [
   "/campi/05.jpg",
 ];
 
-export const TRAINING_PHOTOS = ["/training/05.jpg", "/training/06.jpg"];
+export const TRAINING_PHOTOS = [
+  "/training/05.jpg",
+  "/training/06.jpg",
+  "/training/09.jpg",
+  "/training/10.jpg",
+  "/training/07.jpg",
+  "/training/11.jpg",
+  "/training/08.jpg",
+];
 
 export interface Sponsor {
   name: string;
@@ -160,6 +168,6 @@ export const STORY = {
   timeline: [
     { year: "2001", text: "Nasce il campo: l'inizio di tutto." },
     { year: "La crescita", text: "Tornei, squadre fisse e serate sold-out." },
-    { year: "Oggi", text: "Due campi, il bar, gli allenamenti: la casa del quartiere." },
+    { year: "Oggi", text: "Due campi, area relax, allenamenti ed eventi: PV, il vostro centro sportivo." },
   ],
 };

@@ -14,6 +14,7 @@ export default function ImageRotator({
   interval = 4500,
   startIndex = 0,
   showDots = true,
+  objectPositions = {},
 }: {
   images: string[];
   alt: string;
@@ -21,6 +22,8 @@ export default function ImageRotator({
   interval?: number;
   startIndex?: number;
   showDots?: boolean;
+  // posizione del crop (object-position) per singola immagine, es. { "/training/06.jpg": "75% center" }
+  objectPositions?: Record<string, string>;
 }) {
   const safe = images.length ? images : ["/hero.jpg"];
   const [i, setI] = useState(startIndex % safe.length);
@@ -73,6 +76,11 @@ export default function ImageRotator({
                   : { ...p, [src]: im.naturalHeight > im.naturalWidth },
               );
             }}
+            style={
+              !isPortrait && objectPositions[src]
+                ? { objectPosition: objectPositions[src] }
+                : undefined
+            }
             className={`absolute inset-0 h-full w-full ${
               isPortrait ? "object-contain" : "object-cover"
             }`}

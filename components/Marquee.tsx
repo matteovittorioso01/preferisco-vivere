@@ -1,10 +1,8 @@
 const ITEMS = [
-  "Calcio a 5",
-  "Preferisco vivere",
+  "Preferisco Vivere",
   "Tecnica 1to1",
-  "Luci incluse",
-  "Docce calde",
-  "Bar & tavolini",
+  "Eventi sportivi",
+  "Centro di formazione",
 ];
 
 export default function Marquee() {

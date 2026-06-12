@@ -74,6 +74,7 @@ export default function Training() {
               <ImageRotator
                 images={TRAINING_PHOTOS}
                 alt="Allenamento PV Soccer Training"
+                objectPositions={{ "/training/06.jpg": "82% center" }}
                 className="h-80 w-full sm:h-96"
               />
             </div>
