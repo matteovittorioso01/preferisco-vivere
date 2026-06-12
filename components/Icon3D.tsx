@@ -2,12 +2,56 @@
 
 import type { Transition } from "framer-motion";
 import { motion } from "framer-motion";
-import { Beer, Lightbulb, ParkingSquare, ShowerHead } from "lucide-react";
+import { Beer, ParkingSquare, type LucideProps } from "lucide-react";
 import Tilt from "./Tilt";
 
+// pallone da calcio (stile lineare coerente con le icone lucide)
+function SoccerBall({ size = 24, strokeWidth = 2, ...props }: LucideProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 7l4.7 3.4-1.8 5.6H9.1L7.3 10.4 12 7Z" />
+      <path d="M12 7V2.5M16.7 10.4l4.3-1.5M14.9 16l2.7 3.5M9.1 16l-2.7 3.5M7.3 10.4 3 8.9" />
+    </svg>
+  );
+}
+
+// scarpa/tecnica per PV Soccer Training (footwork)
+function TechniqueIcon({ size = 24, strokeWidth = 2, ...props }: LucideProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M2 17h11l5-1.5c2-.6 3-1.6 3-3 0-1-.7-1.6-1.7-1.5l-5.3.6-3.5-3.2c-.5-.5-1.2-.7-1.9-.5L2 9.5Z" />
+      <path d="M2 13.5h7.5M2 20h17" />
+      <circle cx="18.5" cy="20" r="1.4" />
+    </svg>
+  );
+}
+
 const MAP = {
-  lights: Lightbulb,
-  shower: ShowerHead,
+  calcio: SoccerBall,
+  pvtraining: TechniqueIcon,
   bar: Beer,
   parking: ParkingSquare,
 } as const;
@@ -17,13 +61,13 @@ const ANIM: Record<
   keyof typeof MAP,
   { animate: Record<string, number[]>; transition: Transition }
 > = {
-  lights: {
-    animate: { opacity: [1, 0.5, 1], scale: [1, 1.14, 1] },
-    transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" },
+  calcio: {
+    animate: { y: [0, -4, 0] },
+    transition: { duration: 1.4, repeat: Infinity, ease: "easeInOut" },
   },
-  shower: {
-    animate: { y: [0, -3, 0] },
-    transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+  pvtraining: {
+    animate: { scale: [1, 1.12, 1] },
+    transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" },
   },
   bar: {
     animate: { rotate: [-9, 9, -9] },

@@ -42,10 +42,9 @@ export default function Training() {
             </motion.div>
             <motion.p
               variants={fadeUp}
-              className="mt-5 max-w-lg text-lg leading-relaxed text-white/65"
-            >
-              {TRAINING.text}
-            </motion.p>
+              className="mt-5 max-w-lg text-lg leading-relaxed text-white/65 [&_strong]:font-semibold [&_strong]:text-white"
+              dangerouslySetInnerHTML={{ __html: TRAINING.textHtml }}
+            />
             <motion.ul variants={fadeUp} className="mt-6 space-y-2.5">
               {TRAINING.bullets.map((b) => (
                 <li key={b} className="flex items-center gap-3">
@@ -102,7 +101,10 @@ export default function Training() {
                 <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-lime/15 text-lime">
                   <Check size={12} strokeWidth={3} />
                 </span>
-                <span className="text-sm leading-relaxed text-white/75">{l}</span>
+                <span
+                  className="text-sm leading-relaxed text-white/75 [&_strong]:font-semibold [&_strong]:text-white"
+                  dangerouslySetInnerHTML={{ __html: l }}
+                />
               </motion.div>
             ))}
           </div>

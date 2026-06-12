@@ -83,14 +83,14 @@ export const COURTS: Court[] = [
 ];
 
 export interface Service {
-  icon: "lights" | "shower" | "bar" | "parking";
+  icon: "calcio" | "pvtraining" | "bar" | "parking";
   title: string;
   text: string;
 }
 
 export const SERVICES: Service[] = [
-  { icon: "lights", title: "Illuminazione", text: "Si gioca anche di sera" },
-  { icon: "shower", title: "Docce calde", text: "Spogliatoi pronti" },
+  { icon: "calcio", title: "Calcio a 5", text: "Due campi in erba" },
+  { icon: "pvtraining", title: "PV Soccer Training", text: "Tecnica 1to1" },
   { icon: "bar", title: "Bar & tavolini", text: "Relax all'aperto" },
   { icon: "parking", title: "Parcheggio", text: "Gratuito e ampio" },
 ];
@@ -104,14 +104,7 @@ export const CAMPI_PHOTOS = [
   "/campi/05.jpg",
 ];
 
-export const TRAINING_PHOTOS = [
-  "/training/05.jpg",
-  "/training/06.jpg",
-  "/training/01.jpg",
-  "/training/02.jpg",
-  "/training/03.jpg",
-  "/training/04.jpg",
-];
+export const TRAINING_PHOTOS = ["/training/05.jpg", "/training/06.jpg"];
 
 export interface Sponsor {
   name: string;
@@ -131,6 +124,8 @@ export const TRAINING = {
   title: "Tecnica individuale",
   text:
     "Un progetto in sinergia con le scuole calcio: non sostituiamo l'allenatore della squadra, lo supportiamo nella formazione individuale del giovane giocatore. Cura del dettaglio sotto ogni aspetto — tecnico, tattico individuale e cognitivo — per valorizzare il singolo e seguirlo nelle sue fasi di crescita.",
+  textHtml:
+    "Un progetto in <strong>sinergia con le scuole calcio</strong>: non sostituiamo l'allenatore della squadra, lo <strong>supportiamo nella formazione individuale</strong> del giovane giocatore. Cura del dettaglio sotto ogni aspetto — <strong>tecnico, tattico individuale e cognitivo</strong> — per <strong>valorizzare il singolo</strong> e seguirlo nelle sue fasi di crescita.",
   bullets: [
     "Gruppi da massimo 6 ragazzi",
     "Possibilità di allenamento 1-a-1 col coach",
@@ -139,15 +134,15 @@ export const TRAINING = {
   ],
   learnTitle: "Cosa imparerai",
   learn: [
-    "Dominare la palla con tutte le superfici del piede",
-    "Affrontare l'1 contro 1 con sicurezza e coraggio",
-    "Trasformare il gesto tecnico in un automatismo",
-    "Costruire una mentalità offensiva e vincente",
-    "Eseguire ogni gesto a massima velocità fisica e mentale",
-    "Sviluppare in autonomia nuove abilità tecniche",
-    "Gestire la transizione mentale tra più gesti combinati",
-    "Gestire la fatica senza perdere efficacia nel gesto",
-    "Aumentare autostima e sicurezza nella gestione della palla",
+    "<strong>Dominare la palla</strong> con tutte le superfici del piede",
+    "Affrontare l'<strong>1 contro 1</strong> con sicurezza e coraggio",
+    "Trasformare il gesto tecnico in un <strong>automatismo</strong>",
+    "Costruire una <strong>mentalità offensiva e vincente</strong>",
+    "Eseguire ogni gesto a <strong>massima velocità</strong> fisica e mentale",
+    "Sviluppare in autonomia <strong>nuove abilità tecniche</strong>",
+    "Gestire la <strong>transizione mentale</strong> tra più gesti combinati",
+    "<strong>Gestire la fatica</strong> senza perdere efficacia nel gesto",
+    "Aumentare <strong>autostima e sicurezza</strong> nella gestione della palla",
   ],
 };
 

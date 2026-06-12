@@ -17,7 +17,7 @@ export default function Servizi() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.2 }}
-        className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
+        className="mx-auto mt-14 grid max-w-5xl gap-5 sm:grid-cols-2 lg:grid-cols-4"
       >
         {SERVICES.map((s) => (
           <motion.div
