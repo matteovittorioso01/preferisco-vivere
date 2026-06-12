@@ -13,7 +13,6 @@ import { fadeUp, stagger } from "@/lib/anim";
 const STATS = [
   { to: 25, suffix: "+", label: "anni di storia" },
   { to: 2, suffix: "", label: "campi in erba sintetica" },
-  { to: 6, suffix: "€", label: "a persona, tutto incluso" },
   { to: 7, suffix: "/7", label: "aperti tutta la settimana" },
 ];
 
@@ -58,7 +57,7 @@ export default function Stats() {
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.4 }}
-        className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-5 py-14 lg:grid-cols-4"
+        className="mx-auto grid max-w-6xl grid-cols-3 gap-x-4 gap-y-10 px-5 py-14"
       >
         {STATS.map((s) => (
           <motion.div key={s.label} variants={fadeUp} className="text-center">

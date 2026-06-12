@@ -50,8 +50,13 @@ export default function Nav() {
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-        <a href="#home" className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-verde shadow-[0_0_14px_rgba(34,197,94,0.7)]" />
+        <a href="#home" className="flex items-center gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.jpeg"
+            alt="Logo Preferisco Vivere Calcio a 5"
+            className="h-10 w-10 rounded-full object-cover ring-1 ring-white/20"
+          />
           <span className="font-display text-base font-bold tracking-tight">
             {SITE.shortName}
           </span>
@@ -71,7 +76,7 @@ export default function Nav() {
                 <motion.span
                   layoutId="nav-underline"
                   transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                  className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-lime to-verde"
+                  className="absolute -bottom-1.5 left-0 right-0 h-[2px] rounded-full bg-gradient-to-r from-lime via-white to-rosso"
                 />
               )}
             </a>

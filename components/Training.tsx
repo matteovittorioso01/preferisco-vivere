@@ -23,18 +23,23 @@ export default function Training() {
             whileInView="show"
             viewport={{ once: true, amount: 0.3 }}
           >
-            <motion.p
-              variants={fadeUp}
-              className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-lime"
-            >
-              {TRAINING.brand}
-            </motion.p>
-            <motion.h2
-              variants={fadeUp}
-              className="display-xl mt-5 text-4xl font-bold sm:text-5xl"
-            >
-              {TRAINING.title}
-            </motion.h2>
+            <motion.div variants={fadeUp} className="flex items-center gap-5">
+              {/* logo ufficiale PV Soccer Training */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/training-logo.png"
+                alt="Logo PV Soccer Training — Tecnica 1to1"
+                className="h-24 w-auto shrink-0 rounded-2xl bg-white p-1.5 ring-1 ring-white/15 sm:h-28"
+              />
+              <div>
+                <p className="inline-flex items-center gap-2 rounded-full border border-lime/30 bg-lime/10 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-lime">
+                  {TRAINING.brand}
+                </p>
+                <h2 className="display-xl mt-3 text-4xl font-bold sm:text-5xl">
+                  {TRAINING.title}
+                </h2>
+              </div>
+            </motion.div>
             <motion.p
               variants={fadeUp}
               className="mt-5 max-w-lg text-lg leading-relaxed text-white/65"

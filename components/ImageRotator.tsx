@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Slideshow che ruota automaticamente tra più immagini (dissolvenza).
+// Le immagini VERTICALI (es. volantini) vengono mostrate intere, con una
+// versione sfocata sullo sfondo a riempire il riquadro; quelle orizzontali
+// riempiono il riquadro come di consueto.
 export default function ImageRotator({
   images,
   alt,
@@ -21,6 +24,7 @@ export default function ImageRotator({
 }) {
   const safe = images.length ? images : ["/hero.jpg"];
   const [i, setI] = useState(startIndex % safe.length);
+  const [portrait, setPortrait] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (safe.length <= 1) return;
@@ -31,21 +35,49 @@ export default function ImageRotator({
     return () => clearInterval(id);
   }, [safe.length, interval]);
 
+  const src = safe[i];
+  const isPortrait = !!portrait[src];
+
   return (
     <div className={`relative overflow-hidden ${className}`}>
       <AnimatePresence mode="popLayout" initial={false}>
-        <motion.img
-          key={safe[i]}
-          src={safe[i]}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
+        <motion.div
+          key={src}
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.9, ease: "easeInOut" }}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+          className="absolute inset-0"
+        >
+          {/* sfondo sfocato di riempimento per le immagini verticali */}
+          {isPortrait && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={src}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full scale-110 object-cover opacity-50 blur-lg"
+            />
+          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            onLoad={(e) => {
+              const im = e.currentTarget;
+              setPortrait((p) =>
+                p[src] !== undefined
+                  ? p
+                  : { ...p, [src]: im.naturalHeight > im.naturalWidth },
+              );
+            }}
+            className={`absolute inset-0 h-full w-full ${
+              isPortrait ? "object-contain" : "object-cover"
+            }`}
+          />
+        </motion.div>
       </AnimatePresence>
 
       {/* puntini indicatori */}

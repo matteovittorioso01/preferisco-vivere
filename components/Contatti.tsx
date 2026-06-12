@@ -6,6 +6,15 @@ import { SITE } from "@/lib/site";
 import WhatsAppButton, { WhatsAppIcon } from "./WhatsApp";
 import { fadeUp, stagger } from "@/lib/anim";
 
+// lucide non include il glifo TikTok: icona inline
+function TikTokIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1Z" />
+    </svg>
+  );
+}
+
 export default function Contatti() {
   return (
     <section id="contatti" className="border-t border-white/10 bg-ink-800/30 py-24 md:py-32">
@@ -61,18 +70,15 @@ export default function Contatti() {
           variants={fadeUp}
           className="relative mt-12 flex flex-col items-center gap-6 border-t border-white/10 pt-8"
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-white/60">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm text-white/60">
             <span className="inline-flex items-center gap-2">
               <Clock size={16} className="text-lime" /> {SITE.hours}
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <MapPin size={16} className="text-lime" /> {SITE.city}
             </span>
             <a
               href={SITE.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 font-semibold text-lime transition hover:text-lime-400"
+              className="inline-flex items-center gap-2 rounded-full border border-lime/40 px-5 py-2.5 font-bold text-lime transition hover:scale-105 hover:bg-lime/10 hover:shadow-lime-sm"
             >
               <MapPin size={16} /> Come arrivare
             </a>
@@ -112,6 +118,17 @@ export default function Contatti() {
                 <Youtube size={18} />
               </a>
             )}
+            {SITE.tiktok && (
+              <a
+                href={SITE.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="grid h-11 w-11 place-items-center rounded-xl border border-white/10 text-white/70 transition hover:border-lime hover:text-lime"
+              >
+                <TikTokIcon size={18} />
+              </a>
+            )}
           </div>
         </motion.div>
       </motion.div>
@@ -143,8 +160,8 @@ export default function Contatti() {
             textAnchor="middle"
             textLength="1180"
             lengthAdjust="spacingAndGlyphs"
-            fill="rgba(255,214,10,0.18)"
-            className="sm:[fill:rgba(255,214,10,0.10)]"
+            fill="rgba(0,168,89,0.22)"
+            className="sm:[fill:rgba(0,168,89,0.12)]"
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 700,
@@ -158,8 +175,13 @@ export default function Contatti() {
       </div>
 
       <footer className="mt-6 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 text-sm text-white/40 sm:flex-row">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-verde" />
+        <div className="flex items-center gap-2.5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.jpeg"
+            alt=""
+            className="h-8 w-8 rounded-full object-cover ring-1 ring-white/15"
+          />
           <span className="font-display font-bold text-white/70">
             {SITE.shortName}
           </span>

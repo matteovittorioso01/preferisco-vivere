@@ -25,10 +25,11 @@ export const SITE = {
     "https://www.instagram.com/preferisco_vivere?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   facebook: "https://www.facebook.com/Centrosportivopreferiscovivere/",
   youtube: "https://www.youtube.com/channel/UCUUwmFPZDHGqXNDaWeRXEUA",
+  tiktok:
+    "https://www.tiktok.com/@preferiscovivere?is_from_webapp=1&sender_device=pc",
   mapsUrl:
     "https://www.google.com/maps/place//data=!4m2!3m1!1s0x133baa0c35ace4bb:0x8c9e71364abb50ad?sa=X&ved=1t:8290&ictx=111",
 
-  pricePerPerson: 6,
   hours: "Tutti i giorni · 15:00 – 24:00",
 
   // Immagine iconica della home: salva la foto in /public/hero.jpg
@@ -82,13 +83,12 @@ export const COURTS: Court[] = [
 ];
 
 export interface Service {
-  icon: "euro" | "lights" | "shower" | "bar" | "parking";
+  icon: "lights" | "shower" | "bar" | "parking";
   title: string;
   text: string;
 }
 
 export const SERVICES: Service[] = [
-  { icon: "euro", title: "6€ a persona", text: "Tutto incluso" },
   { icon: "lights", title: "Illuminazione", text: "Si gioca anche di sera" },
   { icon: "shower", title: "Docce calde", text: "Spogliatoi pronti" },
   { icon: "bar", title: "Bar & tavolini", text: "Relax all'aperto" },
@@ -105,6 +105,8 @@ export const CAMPI_PHOTOS = [
 ];
 
 export const TRAINING_PHOTOS = [
+  "/training/05.jpg",
+  "/training/06.jpg",
   "/training/01.jpg",
   "/training/02.jpg",
   "/training/03.jpg",

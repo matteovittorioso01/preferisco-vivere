@@ -36,7 +36,7 @@ export default function Servizi() {
               className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               style={{
                 background:
-                  "radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(255,214,10,0.10), transparent 65%)",
+                  "radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0,168,89,0.12), transparent 65%)",
               }}
             />
             <Icon3D name={s.icon} />

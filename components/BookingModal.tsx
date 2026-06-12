@@ -182,7 +182,7 @@ function Modal({
             <button
               onClick={send}
               disabled={!canSend}
-              className="group relative mt-6 inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-b from-[#FFE45C] via-lime to-[#ECC400] px-6 py-3.5 font-bold text-ink-900 shadow-[0_4px_22px_-8px_rgba(255,214,10,0.5),inset_0_1px_0_rgba(255,255,255,0.45)] transition hover:shadow-[0_8px_36px_-8px_rgba(255,214,10,0.8)] disabled:cursor-not-allowed disabled:opacity-40"
+              className="group relative mt-6 inline-flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-b from-[#12BD6C] via-[#00A859] to-[#008F4C] px-6 py-3.5 font-bold text-white shadow-[0_4px_22px_-8px_rgba(0,168,89,0.55),inset_0_1px_0_rgba(255,255,255,0.3)] transition hover:shadow-[0_8px_36px_-8px_rgba(0,168,89,0.85)] disabled:cursor-not-allowed disabled:opacity-40"
             >
               <span
                 aria-hidden
@@ -202,7 +202,7 @@ function Modal({
 }
 
 function Sent({ onClose }: { onClose: () => void }) {
-  const colors = ["#FFD60A", "#22C55E", "#ffffff"];
+  const colors = ["#009246", "#ffffff", "#CE2B37"];
   const pieces = useMemo(
     () =>
       Array.from({ length: 30 }, (_, i) => ({
@@ -242,7 +242,7 @@ function Sent({ onClose }: { onClose: () => void }) {
           cy="26"
           r="24"
           fill="none"
-          stroke="#22C55E"
+          stroke="#009246"
           strokeWidth="3"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
@@ -251,7 +251,7 @@ function Sent({ onClose }: { onClose: () => void }) {
         <motion.path
           d="M15 27 l7 7 l15 -15"
           fill="none"
-          stroke="#FFD60A"
+          stroke="#ffffff"
           strokeWidth="4"
           strokeLinecap="round"
           strokeLinejoin="round"

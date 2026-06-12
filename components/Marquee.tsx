@@ -1,7 +1,7 @@
 const ITEMS = [
   "Calcio a 5",
   "Preferisco vivere",
-  "6€ a persona",
+  "Tecnica 1to1",
   "Luci incluse",
   "Docce calde",
   "Bar & tavolini",
@@ -24,7 +24,7 @@ export default function Marquee() {
               {t}
             </span>
             <span
-              className={`h-1.5 w-1.5 rounded-full ${i % 2 === 0 ? "bg-lime" : "bg-verde"}`}
+              className={`h-1.5 w-1.5 rounded-full ${i % 2 === 0 ? "bg-lime" : "bg-rosso"}`}
             />
           </span>
         ))}

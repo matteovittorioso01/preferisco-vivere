@@ -39,8 +39,9 @@
     @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl;
   }
 
+  /* gradiente tricolore: verde → bianco → rosso (bandiera italiana) */
   .text-lime-gradient {
-    @apply bg-gradient-to-br from-lime to-verde bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-lime via-white to-rosso bg-clip-text text-transparent;
   }
 
   /* Tipografia editoriale: titoli enormi e compatti */

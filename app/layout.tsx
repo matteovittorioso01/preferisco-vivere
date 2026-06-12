@@ -48,8 +48,9 @@ const jsonLd = {
   },
   hasMap: SITE.mapsUrl,
   openingHours: "Mo-Su 15:00-24:00",
-  priceRange: "6€ a persona",
-  sameAs: [SITE.instagram, SITE.facebook, SITE.youtube].filter(Boolean),
+  sameAs: [SITE.instagram, SITE.facebook, SITE.youtube, SITE.tiktok].filter(
+    Boolean,
+  ),
 };
 
 export default function RootLayout({

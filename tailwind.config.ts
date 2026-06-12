@@ -16,17 +16,24 @@ const config: Config = {
           700: "#16191d",
           600: "#1d2127",
         },
-        // GIALLO Caivano (token storico "lime" = accento primario)
+        // PALETTE TRICOLORE (bandiera italiana, come il logo del club)
+        // "lime" = token storico per l'accento primario → ora VERDE Italia
         lime: {
-          DEFAULT: "#FFD60A",
-          400: "#FFE45C",
-          600: "#E6BE00",
+          DEFAULT: "#00A859",
+          400: "#2BCB7C",
+          600: "#008F4C",
         },
-        // VERDE Caivano (accento secondario)
+        // verde bandiera (pallini, dettagli)
         verde: {
-          DEFAULT: "#22C55E",
-          400: "#4ADE80",
-          600: "#16A34A",
+          DEFAULT: "#009246",
+          400: "#00B257",
+          600: "#007A3B",
+        },
+        // ROSSO bandiera (accento secondario)
+        rosso: {
+          DEFAULT: "#D8333F",
+          400: "#E25560",
+          600: "#CE2B37",
         },
       },
       fontFamily: {
@@ -34,9 +41,10 @@ const config: Config = {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        lime: "0 0 50px -12px rgba(255,214,10,0.5)",
-        "lime-sm": "0 0 24px -8px rgba(255,214,10,0.6)",
-        verde: "0 0 50px -12px rgba(34,197,94,0.5)",
+        lime: "0 0 50px -12px rgba(0,168,89,0.5)",
+        "lime-sm": "0 0 24px -8px rgba(0,168,89,0.6)",
+        verde: "0 0 50px -12px rgba(0,146,70,0.5)",
+        rosso: "0 0 50px -12px rgba(216,51,63,0.5)",
       },
       keyframes: {
         marquee: {

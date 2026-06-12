@@ -76,32 +76,41 @@ export default function Hero() {
               Calcio a 5 · {SITE.city}
             </motion.p>
 
-            <motion.h1
-              variants={fadeUp}
-              className="display-xl mt-5 whitespace-nowrap text-4xl font-bold sm:text-6xl lg:text-7xl"
-            >
-              {/* svelamento parola per parola con maschera */}
-              <span className="inline-block overflow-hidden align-bottom">
-                <motion.span
-                  className="inline-block"
-                  initial={{ y: "108%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  Preferisco
-                </motion.span>
-              </span>{" "}
-              <span className="inline-block overflow-hidden align-bottom">
-                <motion.span
-                  className="text-lime-gradient inline-block"
-                  initial={{ y: "108%" }}
-                  animate={{ y: 0 }}
-                  transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  vivere
-                </motion.span>
-              </span>
-            </motion.h1>
+            <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+              {/* logo del club, grande, accanto al titolo */}
+              <motion.img
+                variants={fadeUp}
+                src="/logo.jpeg"
+                alt="Logo Preferisco Vivere Calcio A5"
+                className="h-20 w-20 shrink-0 rounded-full object-cover ring-2 ring-white/20 shadow-[0_0_35px_rgba(0,168,89,0.35)] sm:h-28 sm:w-28"
+              />
+              <motion.h1
+                variants={fadeUp}
+                className="display-xl whitespace-nowrap text-4xl font-bold sm:text-6xl lg:text-7xl"
+              >
+                {/* svelamento parola per parola con maschera */}
+                <span className="inline-block overflow-hidden align-bottom">
+                  <motion.span
+                    className="inline-block"
+                    initial={{ y: "108%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    Preferisco
+                  </motion.span>
+                </span>{" "}
+                <span className="inline-block overflow-hidden align-bottom">
+                  <motion.span
+                    className="text-lime-gradient inline-block"
+                    initial={{ y: "108%" }}
+                    animate={{ y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+                  >
+                    vivere
+                  </motion.span>
+                </span>
+              </motion.h1>
+            </div>
 
             <motion.p
               variants={fadeUp}

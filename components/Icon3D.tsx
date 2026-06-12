@@ -2,11 +2,10 @@
 
 import type { Transition } from "framer-motion";
 import { motion } from "framer-motion";
-import { Beer, Euro, Lightbulb, ParkingSquare, ShowerHead } from "lucide-react";
+import { Beer, Lightbulb, ParkingSquare, ShowerHead } from "lucide-react";
 import Tilt from "./Tilt";
 
 const MAP = {
-  euro: Euro,
   lights: Lightbulb,
   shower: ShowerHead,
   bar: Beer,
@@ -18,10 +17,6 @@ const ANIM: Record<
   keyof typeof MAP,
   { animate: Record<string, number[]>; transition: Transition }
 > = {
-  euro: {
-    animate: { scale: [1, 1.15, 1] },
-    transition: { duration: 1.9, repeat: Infinity, ease: "easeInOut" },
-  },
   lights: {
     animate: { opacity: [1, 0.5, 1], scale: [1, 1.14, 1] },
     transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" },
