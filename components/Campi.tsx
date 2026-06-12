@@ -67,15 +67,24 @@ export default function Campi() {
         ))}
       </motion.div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 10 }}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mt-8 flex items-center justify-center gap-2 text-center text-sm text-white/50"
+        className="mt-12 flex justify-center"
       >
-        <ShieldCheck size={16} className="shrink-0 text-lime" />
-        Si evidenziano anche i parametri di sicurezza vigenti dalla FIGC e del CONI.
-      </motion.p>
+        <div className="flex items-center gap-3 rounded-2xl border border-lime/30 bg-lime/10 px-5 py-4 text-center shadow-[0_0_30px_-10px_rgba(0,168,89,0.5)]">
+          <ShieldCheck size={26} className="shrink-0 text-lime" />
+          <p className="text-sm font-semibold text-white sm:text-base">
+            Campi con riconoscimento ufficiale{" "}
+            <span className="text-lime">FIGC</span> e{" "}
+            <span className="text-lime">CONI</span>
+            <span className="block text-xs font-normal text-white/60">
+              Strutture a norma secondo i parametri di sicurezza vigenti
+            </span>
+          </p>
+        </div>
+      </motion.div>
       </div>
     </section>
   );

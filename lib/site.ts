@@ -13,7 +13,7 @@ export const SITE = {
   slogan: "Preferisco\nvivere.",
 
   tagline:
-    "Due campi di calcio a 5 dove il quartiere scende in campo. Luci, docce e bar: tu pensa solo a giocare.",
+    "Due campi di calcio a 5 dove il territorio scende in campo: comodi spogliatoi, ampio parcheggio, area relax. Tu pensa solo a giocare.",
 
   city: "Caivano",
 
@@ -69,7 +69,7 @@ export const COURTS: Court[] = [
     name: "Campo 1",
     tag: "Calcio a 5",
     description:
-      "Manto in erba sintetica e fondo perfetto in ogni stagione. Il campo storico, quello delle partite che non finiscono mai.",
+      "Manto in erba sintetica e fondo perfetto in ogni stagione: il campo storico, quello delle partite che non finiscono mai. Il preferito per tornei ed eventi.",
     image: "/campo-1.jpg",
   },
   {
@@ -77,7 +77,7 @@ export const COURTS: Court[] = [
     name: "Campo 2",
     tag: "Calcio a 5",
     description:
-      "Secondo campo a 5, ideale per tornei e doppie sfide. Stessa cura, stesso divertimento, il doppio delle partite.",
+      "Secondo campo a 5, ideale per amichevoli: stessa cura, stesso divertimento. Il più giovane.",
     image: "/campo-2.jpg",
   },
 ];
