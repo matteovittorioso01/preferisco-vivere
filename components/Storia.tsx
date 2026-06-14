@@ -24,14 +24,14 @@ export default function Storia() {
           className="relative mt-12 overflow-hidden rounded-[2rem] border border-white/10"
         >
           <Img
-            src="/hero.jpg"
-            alt="Il muro del campo con la scritta «Preferisco vivere»"
-            label="Foto del campo"
-            className="h-72 w-full object-contain sm:h-[26rem] sm:object-cover sm:object-[68%_15%]"
+            src="/campo-aerea.jpg"
+            alt="Vista dall'alto del centro sportivo Preferisco Vivere con i due campi"
+            label="Foto del centro sportivo dall'alto"
+            className="h-72 w-full object-cover sm:h-[26rem]"
           />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-ink-900 to-transparent" />
           <p className="absolute bottom-5 left-6 right-6 text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
-            Il nostro campo
+            Il nostro centro sportivo
           </p>
         </motion.div>
 

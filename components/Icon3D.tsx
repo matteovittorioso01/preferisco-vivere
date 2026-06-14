@@ -2,7 +2,7 @@
 
 import type { Transition } from "framer-motion";
 import { motion } from "framer-motion";
-import { Beer, ParkingSquare, type LucideProps } from "lucide-react";
+import { ParkingSquare, type LucideProps } from "lucide-react";
 import Tilt from "./Tilt";
 
 // pallone da calcio (stile lineare coerente con le icone lucide)
@@ -49,10 +49,32 @@ function TechniqueIcon({ size = 24, strokeWidth = 2, ...props }: LucideProps) {
   );
 }
 
+// bottiglietta d'acqua (stile lineare coerente con le icone lucide)
+function WaterBottle({ size = 24, strokeWidth = 2, ...props }: LucideProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <path d="M10 2h4v2h-4z" />
+      <path d="M10 4c0 1.5-1.7 2-1.7 3.6V19a2 2 0 0 0 2 2h3.4a2 2 0 0 0 2-2V7.6C15.7 6 14 5.5 14 4" />
+      <path d="M8.3 12h7.4M8.3 16h7.4" />
+    </svg>
+  );
+}
+
 const MAP = {
   calcio: SoccerBall,
   pvtraining: TechniqueIcon,
-  bar: Beer,
+  bar: WaterBottle,
   parking: ParkingSquare,
 } as const;
 
@@ -102,14 +124,14 @@ export default function Icon3D({
         }}
       >
         <span className="pointer-events-none absolute inset-x-2 top-1.5 h-1/3 rounded-full bg-white/10 blur-[6px]" />
-        {/* bagliore lime che pulsa */}
+        {/* bagliore rosso che pulsa */}
         <motion.span
-          className="pointer-events-none absolute h-9 w-9 rounded-full bg-lime/20 blur-lg"
+          className="pointer-events-none absolute h-9 w-9 rounded-full bg-rosso/20 blur-lg"
           animate={{ opacity: [0.5, 0.9, 0.5], scale: [1, 1.15, 1] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.span
-          className="relative inline-flex text-lime"
+          className="relative inline-flex text-rosso"
           style={{ transformStyle: "preserve-3d" }}
           animate={ANIM[name].animate}
           transition={ANIM[name].transition}
