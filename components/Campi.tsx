@@ -28,7 +28,7 @@ export default function Campi() {
           <motion.div
             key={c.id}
             variants={fadeUp}
-            className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-ink-800"
+            className="group relative flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-ink-800"
           >
             <div className="relative h-72 overflow-hidden sm:h-80">
               <ImageRotator
@@ -49,7 +49,7 @@ export default function Campi() {
               </span>
             </div>
 
-            <div className="relative -mt-12 p-6">
+            <div className="relative -mt-12 flex flex-1 flex-col p-6">
               <h3 className="font-display text-2xl font-bold">{c.name}</h3>
               <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/60">
                 {c.description}
@@ -57,7 +57,7 @@ export default function Campi() {
               <WhatsAppButton
                 booking
                 court={c.name}
-                className="mt-5 !px-5 !py-2.5 text-xs"
+                className="mt-auto self-start pt-5 !px-5 !py-2.5 text-xs"
               >
                 Prenota il {c.name}
               </WhatsAppButton>
