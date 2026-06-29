@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Heart, Flame, Zap, Check, X, Lightbulb, ArrowRight, RotateCcw, GraduationCap, Ticket } from "lucide-react";
-import { MoleculeCanvas } from "@/components/biochem/MoleculeCanvas";
+import { StructureInput } from "@/components/biochem/StructureInput";
 import {
   LESSONS,
   emptyMolecule,
@@ -254,7 +254,7 @@ function DrawStepView({
         )}
       </AnimatePresence>
 
-      <MoleculeCanvas
+      <StructureInput
         value={drawn}
         onChange={(m) => {
           setDrawn(m);

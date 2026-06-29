@@ -21,10 +21,20 @@ confronta con l'atteso — sempre verifica, non riconoscimento open-ended.
 
 ## Cosa c'è in questo MVP
 
+- **Scrittura a mano libera** (`components/biochem/FreehandCanvas.tsx` + `lib/ink.ts`)
+  Lo studente **scrive** la struttura: lettere degli atomi (C, O, N, H, S, P) e
+  tratti per i legami. Riconoscimento con l'algoritmo **$P (point-cloud)** —
+  template-based, **zero dataset/training**. Pipeline: raggruppa i tratti in
+  glifi (vicinanza spaziale+temporale) → distingue i tratti-legame (lunghi e
+  dritti) → riconosce ogni glifo via $P → assembla la molecola (anche doppi/
+  tripli legami da tratti paralleli). Il risultato confluisce nello stesso
+  `evaluate()`. È **verifica, non riconoscimento open-ended**.
+
 - **Builder di molecole** (`components/biochem/MoleculeCanvas.tsx`)
-  Costruzione atomo-per-atomo in formula scheletrica (H impliciti, come
-  all'esame): tavolozza elementi (C, O, N, S, P, H), strumenti Atomo / Legame /
-  Gomma, legami singolo→doppio→triplo. SVG, touch-friendly.
+  Editor tap-to-build affidabile, usato anche per **correggere** la lettura a
+  mano: tavolozza elementi, strumenti Atomo / Legame / Gomma, legami
+  singolo→doppio→triplo. SVG, touch-friendly. Le due modalità si scambiano via
+  `StructureInput.tsx` mantenendo la struttura.
 
 - **Motore chimico** (`lib/chem.ts`)
   - confronto strutturale via **Weisfeiler–Lehman** (isomorfismo robusto su
@@ -57,6 +67,8 @@ disegna l'alanina (glicina + un –CH₃ sul Cα) → premio.
 2. **Per-ateneo**: rilevare l'università (email .edu / scelta in onboarding),
    programma e premi configurabili per ateneo + partner locali.
 3. **Persistenza**: salvare progresso/XP/streak (account, non solo locale).
-4. **v2 scrittura a mano**: canvas a tratti + verifica contro l'atteso; ogni
-   studente che usa l'app genera dati etichettati → il dataset diventa il
-   fossato competitivo.
+4. **Riconoscimento a mano libera — migliorare**: la base $P c'è e funziona su
+   scrittura ragionevole, ma è best-effort (no dataset). Ogni studente che usa
+   l'app — e corregge la lettura in «Costruisci» — genera **dati etichettati**:
+   quello diventa il dataset per un riconoscitore robusto, il vero fossato
+   competitivo.

@@ -29,7 +29,10 @@ export function MoleculeCanvas({
   const [tool, setTool] = useState<Tool>("atom");
   const [el, setEl] = useState<Element>("C");
   const [pendingBond, setPendingBond] = useState<number | null>(null);
-  const [nextId, setNextId] = useState(1);
+
+  // id sempre univoco anche su molecole ricevute da fuori (es. lettura a mano)
+  const freshId = () =>
+    Math.max(0, ...value.atoms.map((a) => a.id), ...value.bonds.map((b) => b.id)) + 1;
 
   const colorOf = (e: Element) =>
     ELEMENTS.find((x) => x.sym === e)?.color ?? "#444";
@@ -59,8 +62,7 @@ export function MoleculeCanvas({
         });
         return;
       }
-      const a: Atom = { id: nextId, el, x: p.x, y: p.y };
-      setNextId(nextId + 1);
+      const a: Atom = { id: freshId(), el, x: p.x, y: p.y };
       onChange({ ...value, atoms: [...value.atoms, a] });
       return;
     }
@@ -93,8 +95,7 @@ export function MoleculeCanvas({
           ),
         });
       } else {
-        const b: Bond = { id: nextId, a: pendingBond, b: hit.id, order: 1 };
-        setNextId(nextId + 1);
+        const b: Bond = { id: freshId(), a: pendingBond, b: hit.id, order: 1 };
         onChange({ ...value, bonds: [...value.bonds, b] });
       }
       setPendingBond(null);
