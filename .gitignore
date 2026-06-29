@@ -15,3 +15,6 @@
 
 # env
 .env*.local
+
+# typescript incremental build info
+*.tsbuildinfo
