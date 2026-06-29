@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Eraser, Undo2, ScanLine } from "lucide-react";
 import { Molecule } from "@/lib/chem";
 import { assembleMolecule, Point, Stroke } from "@/lib/ink";
@@ -23,7 +23,10 @@ export function FreehandCanvas({
   const [current, setCurrent] = useState<Point[]>([]);
   const [read, setRead] = useState(false);
   const [lowConf, setLowConf] = useState(false);
+  const [unrecBonds, setUnrecBonds] = useState(0);
   const drawing = useRef(false);
+  const currentRef = useRef<Point[]>([]); // specchio di `current` per lettura sincrona
+  const captured = useRef<{ el: Element; id: number } | null>(null);
 
   function toSvg(e: React.PointerEvent): Point {
     const rect = svgRef.current!.getBoundingClientRect();
@@ -33,40 +36,74 @@ export function FreehandCanvas({
     };
   }
 
+  function setCur(pts: Point[]) {
+    currentRef.current = pts;
+    setCurrent(pts);
+  }
+
+  function releaseCapture() {
+    const c = captured.current;
+    if (!c) return;
+    try { c.el.releasePointerCapture?.(c.id); } catch { /* gia` rilasciato */ }
+    captured.current = null;
+  }
+
+  // commit del tratto in corso (chiamato anche allo smontaggio: cambio modalita`)
+  function commitCurrent() {
+    const pts = currentRef.current;
+    if (pts.length >= 2) {
+      const now = perfNow();
+      setStrokes((s) => [...s, { points: pts, t0: now - pts.length * 8, t1: now }]);
+    }
+    setCur([]);
+  }
+
   function onDown(e: React.PointerEvent) {
-    (e.target as Element).setPointerCapture?.(e.pointerId);
+    const el = e.target as Element;
+    try { el.setPointerCapture?.(e.pointerId); captured.current = { el, id: e.pointerId }; } catch { /* no-op */ }
     drawing.current = true;
-    setCurrent([toSvg(e)]);
+    setCur([toSvg(e)]);
     if (read) setRead(false); // ridisegnare invalida la lettura precedente
   }
   function onMove(e: React.PointerEvent) {
     if (!drawing.current) return;
-    setCurrent((c) => [...c, toSvg(e)]);
+    setCur([...currentRef.current, toSvg(e)]);
   }
   function onUp() {
     if (!drawing.current) return;
     drawing.current = false;
-    setCurrent((c) => {
-      if (c.length >= 2) {
-        const now = perfNow();
-        setStrokes((s) => [...s, { points: c, t0: now - c.length * 8, t1: now }]);
-      }
-      return [];
-    });
+    releaseCapture();
+    commitCurrent();
   }
+
+  // se il componente si smonta a meta` tratto (es. toggle modalita`), non
+  // perdere il lavoro: committa il tratto in corso e rilascia il pointer.
+  useEffect(() => {
+    return () => {
+      releaseCapture();
+      const pts = currentRef.current;
+      if (drawing.current && pts.length >= 2) {
+        const now = perfNow();
+        setStrokes((s) => [...s, { points: pts, t0: now - pts.length * 8, t1: now }]);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function readStructure() {
     if (strokes.length === 0) return;
     const rec = assembleMolecule(strokes);
     setLowConf(rec.lowConfidence);
+    setUnrecBonds(rec.unrecognizedBonds);
     setRead(true);
     onChange(rec.molecule);
   }
 
   function clearAll() {
     setStrokes([]);
-    setCurrent([]);
+    setCur([]);
     setRead(false);
+    setUnrecBonds(0);
     onChange({ atoms: [], bonds: [] });
   }
 
@@ -127,9 +164,11 @@ export function FreehandCanvas({
         <p className={`mt-2 text-center text-xs ${lowConf ? "text-rosso" : "text-white/50"}`}>
           {value.atoms.length === 0
             ? "Non sono riuscito a leggere atomi: riscrivi più in grande, o usa «Costruisci»."
-            : lowConf
-              ? "Lettura incerta. Se ho sbagliato a leggere, correggi in «Costruisci»."
-              : "Ho letto questa struttura. Se è giusta, premi «Verifica»; altrimenti correggi in «Costruisci»."}
+            : unrecBonds > 0
+              ? `Ho letto ${value.atoms.length} atomi ma ${unrecBonds} legame/i non si aggancia a due atomi: avvicina gli estremi, o correggi in «Costruisci».`
+              : lowConf
+                ? "Lettura incerta. Se ho sbagliato a leggere, correggi in «Costruisci»."
+                : "Ho letto questa struttura. Se è giusta, premi «Verifica»; altrimenti correggi in «Costruisci»."}
         </p>
       ) : (
         <p className="mt-2 text-center text-xs text-white/40">

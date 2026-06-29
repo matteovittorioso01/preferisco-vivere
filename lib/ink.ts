@@ -34,12 +34,13 @@ export interface Stroke {
 const NUM_POINTS = 32;
 
 // soglie nello spazio del canvas (360 x 240)
-const GROUP_GAP = 30; // px: distanza max per unire tratti nello stesso glifo
-const GROUP_DT = 1000; // ms: intervallo max per unire tratti consecutivi
 const BOND_MIN_LEN = 38; // px: lunghezza minima di un tratto-legame
 const STRAIGHT = 0.82; // dritto se distanzaEstremi/lunghezzaPercorso >= soglia
+const CLUSTER_GAP = 16; // px: tratti curvi cosi` vicini = stesso glifo (atomo)
+const TOUCH_GAP = 9; // px: tratti dritti che si toccano/incrociano = stessa lettera (H, N)
+const ATTACH_GAP = 14; // px: tratto dritto attaccato a un glifo curvo (la stanghetta della P)
 const SNAP = 36; // px: aggancio estremo legame al centro di un atomo
-const PARALLEL_MERGE = 16; // px: legami fra stessa coppia entro questa distanza -> ordine multiplo
+const PARALLEL_MERGE = 16; // px: legami paralleli fra stessa coppia entro questa distanza -> ordine multiplo
 
 // ---------------------------------------------------------------------------
 // Geometria di base
@@ -232,38 +233,32 @@ export function recognizeGlyph(strokes: Stroke[]): GlyphResult | null {
 }
 
 // ---------------------------------------------------------------------------
-// Raggruppamento dei tratti in glifi (spaziale + temporale)
+// Segmentazione relazionale (niente dipendenza dal tempo: robusta a chi
+// scrive lento). Idea: un tratto lungo e dritto e` un LEGAME solo se collega
+// due cluster-atomo distinti; altrimenti e` parte di una lettera. Le lettere
+// fatte di tratti dritti (H, N) restano unite perche` i loro tratti si
+// toccano/incrociano (gap ~0); i legami paralleli di un doppio legame NON si
+// toccano (gap ~offset) quindi restano separati e vengono fusi dopo.
 // ---------------------------------------------------------------------------
-interface Group {
-  strokes: Stroke[];
-  points: Point[]; // tutti i punti (per gap/centroide)
-}
-
 function isLongStraight(s: Stroke): boolean {
   return pathLength(s.points) >= BOND_MIN_LEN && straightness(s.points) >= STRAIGHT;
 }
 
-function groupStrokes(strokes: Stroke[]): Group[] {
-  const sorted = [...strokes].sort((a, b) => a.t0 - b.t0);
-  const groups: Group[] = [];
-  for (const s of sorted) {
-    // un tratto lungo e dritto e` quasi sempre un legame: parte da solo
-    if (!isLongStraight(s)) {
-      const last = groups[groups.length - 1];
-      if (
-        last &&
-        s.t0 - last.strokes[last.strokes.length - 1].t1 < GROUP_DT &&
-        setGap(s.points, last.points) < GROUP_GAP &&
-        !last.strokes.every(isLongStraight) // non attaccarsi a un gruppo-legame
-      ) {
-        last.strokes.push(s);
-        last.points = last.points.concat(s.points);
-        continue;
-      }
-    }
-    groups.push({ strokes: [s], points: [...s.points] });
-  }
-  return groups;
+/** Union-find: raggruppa i tratti i cui insiemi di punti distano < gap. */
+function clusterByGap(strokes: Stroke[], gap: number): Stroke[][] {
+  const n = strokes.length;
+  const parent = Array.from({ length: n }, (_, i) => i);
+  const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+  for (let i = 0; i < n; i++)
+    for (let j = i + 1; j < n; j++)
+      if (setGap(strokes[i].points, strokes[j].points) < gap) parent[find(i)] = find(j);
+  const byRoot = new Map<number, Stroke[]>();
+  strokes.forEach((s, i) => {
+    const r = find(i);
+    if (!byRoot.has(r)) byRoot.set(r, []);
+    byRoot.get(r)!.push(s);
+  });
+  return Array.from(byRoot.values());
 }
 
 // ---------------------------------------------------------------------------
@@ -272,24 +267,55 @@ function groupStrokes(strokes: Stroke[]): Group[] {
 export interface Recognition {
   molecule: Molecule;
   glyphs: { el: Element; distance: number; x: number; y: number }[];
+  unrecognizedBonds: number; // tratti-legame che non si agganciano a due atomi
   lowConfidence: boolean;
 }
 
 export function assembleMolecule(strokes: Stroke[]): Recognition {
-  const groups = groupStrokes(strokes);
+  const curved = strokes.filter((s) => !isLongStraight(s));
+  const straight = strokes.filter((s) => isLongStraight(s));
 
-  // un gruppo e` un LEGAME se: singolo tratto, lungo e dritto
-  const bondGroups: Group[] = [];
-  const atomGroups: Group[] = [];
-  for (const g of groups) {
-    if (g.strokes.length === 1 && isLongStraight(g.strokes[0])) bondGroups.push(g);
-    else atomGroups.push(g);
+  // cluster-atomo: glifi curvi (O,C,S, occhiello P) + lettere di soli tratti
+  // dritti che si toccano (H, N). I tratti dritti isolati restano "singoli".
+  const atomClusters: Stroke[][] = clusterByGap(curved, CLUSTER_GAP);
+  const straightClusters = clusterByGap(straight, TOUCH_GAP);
+  const singles: Stroke[] = [];
+  for (const c of straightClusters) {
+    if (c.length >= 2) atomClusters.push(c); // H, N: lettera multi-tratto
+    else singles.push(c[0]); // tratto dritto isolato: legame o stanghetta
   }
 
-  // atomi (centroide + riconoscimento elemento)
-  const atomCentroids = atomGroups.map((g) => centroidOf(g.points));
-  const glyphs = atomGroups.map((g, i) => {
-    const r = recognizeGlyph(g.strokes);
+  const ptsOf = (c: Stroke[]) => c.flatMap((s) => s.points);
+  const minGapToCluster = (p: Point, c: Stroke[]) =>
+    Math.min(...ptsOf(c).map((q) => dist(p, q)));
+
+  // i tratti dritti singoli: legame (collega 2 cluster) o stanghetta (1 cluster)
+  interface RawBond { a: number; b: number; mid: Point }
+  const raw: RawBond[] = [];
+  let unrecognizedBonds = 0;
+  for (const s of singles) {
+    const e0 = s.points[0];
+    const e1 = s.points[s.points.length - 1];
+    let c0 = -1, c1 = -1, d0 = SNAP, d1 = SNAP;
+    atomClusters.forEach((c, i) => {
+      const g0 = minGapToCluster(e0, c);
+      const g1 = minGapToCluster(e1, c);
+      if (g0 < d0) { d0 = g0; c0 = i; }
+      if (g1 < d1) { d1 = g1; c1 = i; }
+    });
+    if (c0 >= 0 && c1 >= 0 && c0 !== c1) {
+      raw.push({ a: c0, b: c1, mid: centroidOf(s.points) }); // legame
+    } else if ((c0 >= 0 || c1 >= 0) && minStrokeAttach(s, atomClusters) < ATTACH_GAP) {
+      atomClusters[c0 >= 0 ? c0 : c1].push(s); // stanghetta: parte della lettera
+    } else {
+      unrecognizedBonds++; // tratto che non si aggancia a nulla: segnalato
+    }
+  }
+
+  // atomi (centroide + riconoscimento elemento) sui cluster definitivi
+  const atomCentroids = atomClusters.map((c) => centroidOf(ptsOf(c)));
+  const glyphs = atomClusters.map((c, i) => {
+    const r = recognizeGlyph(c);
     return {
       el: r?.el ?? "C",
       distance: r?.distance ?? Infinity,
@@ -297,29 +323,7 @@ export function assembleMolecule(strokes: Stroke[]): Recognition {
       y: atomCentroids[i].y,
     };
   });
-
   const atoms = glyphs.map((gl, i) => ({ id: i, el: gl.el, x: gl.x, y: gl.y }));
-
-  // aggancia ogni tratto-legame ai due atomi piu` vicini ai suoi estremi
-  const nearestAtom = (p: Point): number => {
-    let best = -1, bestD = SNAP;
-    atomCentroids.forEach((c, i) => {
-      const d = dist(p, c);
-      if (d < bestD) { bestD = d; best = i; }
-    });
-    return best;
-  };
-
-  interface RawBond { a: number; b: number; mid: Point }
-  const raw: RawBond[] = [];
-  for (const g of bondGroups) {
-    const pts = g.strokes[0].points;
-    const a = nearestAtom(pts[0]);
-    const b = nearestAtom(pts[pts.length - 1]);
-    if (a >= 0 && b >= 0 && a !== b) {
-      raw.push({ a, b, mid: centroidOf(pts) });
-    }
-  }
 
   // fonde legami paralleli vicini fra la stessa coppia -> ordine 2/3
   const bonds: { id: number; a: number; b: number; order: BondOrder }[] = [];
@@ -342,7 +346,18 @@ export function assembleMolecule(strokes: Stroke[]): Recognition {
     bonds.push({ id: bondId++, a: raw[i].a, b: raw[i].b, order: Math.min(3, count) as BondOrder });
   }
 
-  const lowConfidence = glyphs.some((g) => g.distance > 2.2) || atoms.length === 0;
+  const lowConfidence =
+    atoms.length === 0 || unrecognizedBonds > 0 || glyphs.some((g) => g.distance > 2.2);
 
-  return { molecule: { atoms, bonds }, glyphs, lowConfidence };
+  return { molecule: { atoms, bonds }, glyphs, unrecognizedBonds, lowConfidence };
+}
+
+/** Distanza minima fra un tratto e il cluster-atomo piu` vicino (per stanghetta). */
+function minStrokeAttach(s: Stroke, clusters: Stroke[][]): number {
+  let min = Infinity;
+  for (const c of clusters) {
+    const cp = c.flatMap((x) => x.points);
+    for (const p of s.points) for (const q of cp) min = Math.min(min, dist(p, q));
+  }
+  return min;
 }
