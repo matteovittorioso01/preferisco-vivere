@@ -122,8 +122,8 @@ export interface Sponsor {
 }
 
 export const SPONSORS: Sponsor[] = [
-  { name: "Mondial Service", logo: "/sponsor/mondial.png", url: "" },
-  { name: "WindTre Caivano", logo: "/sponsor/windtre.png", url: "" },
+  { name: "Mondial Service", logo: "/sponsor/mondial.png", url: "https://www.facebook.com/share/1EeFpJd8YQ/" },
+  { name: "WindTre Caivano", logo: "/sponsor/windtre.png", url: "https://www.tiktok.com/@windtrecaivano?_r=1&_t=ZG-98FEFKgfbjE" },
   { name: "H.C.G. Parrucchieri", logo: "/sponsor/hcg.png", url: "https://hcgparrucchieri.salonitalia.it/" },
 ];
 
